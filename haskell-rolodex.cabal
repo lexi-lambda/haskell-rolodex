@@ -16,12 +16,14 @@ executable haskell-rolodex
   hs-source-dirs:      .
   main-is:             main.hs
   default-language:    Haskell2010
+  ghc-options:         -Wall
   build-depends:       base >= 4.7 && < 5
                      , haskell-rolodex
 
 library
   hs-source-dirs:      src
   default-language:    Haskell2010
+  ghc-options:         -Wall
   exposed-modules:     API.Contact
                      , App
                      , DB
@@ -51,6 +53,7 @@ test-suite test
   hs-source-dirs:      test
   main-is:             Spec.hs
   default-language:    Haskell2010
+  ghc-options:         -Wall
   build-depends:       base
                      , containers
                      , haskell-rolodex
