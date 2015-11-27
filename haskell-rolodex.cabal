@@ -1,13 +1,13 @@
 name:                haskell-rolodex
 version:             0.1.0.0
-synopsis:            Simple project template from stack
+synopsis:            Tiny Haskell web service for managing contacts
 description:         Please see README.md
-homepage:            http://github.com/githubuser/haskell-rolodex#readme
-license:             BSD3
+homepage:            https://github.com/lexi-lambda/haskell-rolodex
+license:             ISC
 license-file:        LICENSE
-author:              Author name here
-maintainer:          example@example.com
-copyright:           2010 Author Here
+author:              Alexis King
+maintainer:          lexi.lambda@gmail.com
+copyright:           2015 Alexis King
 category:            Web
 build-type:          Simple
 cabal-version:       >=1.10
