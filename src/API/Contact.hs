@@ -23,7 +23,7 @@ type ContactsAPI = Get '[JSON] [Entity Contact]
                             :> Get '[JSON] [Entity Contact]
               :<|> Capture "id" Int64 :>
                    ( Get '[JSON] (Entity Contact)
-                :<|> ReqBody '[JSON] Contact :> Patch '[] ()
+                :<|> ReqBody '[JSON] Contact :> Put '[] ()
                 :<|> Delete '[] ()
                    )
 
@@ -50,7 +50,7 @@ createContact contact = do
 getContact :: Int64 -> EitherT ServantErr IO (Entity Contact)
 getContact contactId = getById contactId >>= maybeTo404 "contact"
 
--- PATCH /:id
+-- PUT /:id
 updateContact :: Int64 -> Contact -> EitherT ServantErr IO ()
 updateContact contactId contact = do
     validated <- hoistEither $ validateContact contact
