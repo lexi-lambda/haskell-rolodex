@@ -36,6 +36,7 @@ library
                      , either
                      , monad-control
                      , monad-logger
+                     , mtl
                      , persistent >= 2.2 && < 3
                      , persistent-sqlite >= 2.2 && < 3
                      , persistent-template >= 2.1 && < 3

@@ -4,9 +4,10 @@
 module Util where
 
 import Control.Monad
+import Control.Monad.IO.Class
+import Control.Monad.Reader
 import Control.Monad.Trans.Control
 import Control.Monad.Trans.Either
-import Control.Monad.IO.Class
 import Data.Int
 import Data.String
 import Database.Persist.Sqlite
@@ -22,6 +23,20 @@ getById :: (MonadIO m, MonadBaseControl IO m, ToBackendKey SqlBackend record)
 getById contactId = runDB $ boxEntity (get key)
   where key = toSqlKey contactId
         boxEntity = liftM $ fmap (Entity key)
+
+-- |Like 'replace', but checks if a record to be replaced actually exists before
+-- attempting any replacement. Returns whether or not the replacement was
+-- succesful. (Currently, the return values are meaningless because it is
+-- unclear what sort of useful values they could return.)
+replaceBy :: (MonadIO m, PersistStore (PersistEntityBackend v), PersistEntity v)
+          => Key v -> v -> ReaderT (PersistEntityBackend v) m (Either () ())
+replaceBy key record = do
+  existingRecord <- get key
+  case existingRecord of
+    Nothing  -> return $ Left ()
+    (Just _) -> do
+      replace key record
+      return $ Right ()
 
 -- |Adapts 'Maybe' values representing potentially-existing records to use
 -- 'EitherT'’s error-handling machinery. Produces a Servant error upon failure.

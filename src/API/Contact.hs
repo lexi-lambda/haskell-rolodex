@@ -58,7 +58,10 @@ getContact contactId = getById contactId >>= maybeTo404 "contact"
 updateContact :: Int64 -> Contact -> EitherT ServantErr IO ()
 updateContact contactId contact = do
     validated <- hoistEither $ validateContact contact
-    runDB $ replace key validated
+    replacement <- runDB $ replaceBy key validated
+    case replacement of
+      (Right _) -> return ()
+      (Left  _) -> left err400 { errBody = "No contact exists with that id" }
   where key = toSqlKey contactId
 
 -- DELETE /:id
