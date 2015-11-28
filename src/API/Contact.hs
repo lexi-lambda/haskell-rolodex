@@ -44,7 +44,11 @@ listContacts = runDB $ selectList [] []
 createContact :: Contact -> EitherT ServantErr IO ()
 createContact contact = do
   validated <- hoistEither $ validateContact contact
-  runDB $ insert_ validated
+  insertion <- runDB $ insertBy validated
+  case insertion of
+    (Right _) -> return ()
+    (Left  _) -> left err400
+      { errBody = "That phone number or email already exists in the database" }
 
 -- GET /:id
 getContact :: Int64 -> EitherT ServantErr IO (Entity Contact)
