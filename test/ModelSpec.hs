@@ -8,8 +8,11 @@ import Model
 import Servant
 import Data.Map
 
+shouldBeErrorWithCode :: Either ServantErr t -> Int -> Expectation
 shouldBeErrorWithCode (Left err) code = errHTTPCode err `shouldBe` code
+shouldBeErrorWithCode _          _    = undefined
 
+spec :: Spec
 spec = describe "Model" $ do
   describe "validateContact" $ do
     it "returns a contact when the values are valid" $ do
